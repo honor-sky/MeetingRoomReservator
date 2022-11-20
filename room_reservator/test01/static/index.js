@@ -9,10 +9,12 @@ const title = document.getElementById("title");
 search_button.onclick = () => {
 	var all_required = check_all_required();
 	console.log(all_required);
+	//index()
 
 	if (all_required) {
 		button_section.style.display = "none";
 		title.innerText = "예약 정보";
+
 		// for (i = 0; i < inputs.length; i++) {
 		// 	inputs[i].setAttribute("disabled", true);
 		// }

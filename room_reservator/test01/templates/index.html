@@ -1,4 +1,4 @@
-<!--
+
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -22,31 +22,27 @@
 		<div id="main-content">
 			<section>
 				<div id="title">예약 정보 입력</div>
-				<form>
+				<form action = "" method="get">
 					<li>
 						<span color="red">*</span>
 						<label for="name">예약자 이름 </label>
-						<input type="text" id="name" class="required" />
+						<input type="text" name = "name" id="name" class="required" />
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="vim-check">빔프로젝터 사용 여부 </label>
-						<input type="checkbox" id="vim-check" />
+						<input type="checkbox" name = "vim_check" id="vim-check" />
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="count">예약 인원 </label>
-						<input type="number" id="count" class="small required" /> 명
+						<input type="number" name ="count" id="count" class="small required"/> 명
+
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="date">예약 일자 </label>
-						<input type="date" id="date" class="required" />
-					</li>
-					<li>
-						<span color="red">*</span>
-						<label for="how-time">회의실 사용 시간 </label>
-						<input type="number" id="how-time" class="small required" /> 시간
+						<input type="date" name ="date" id="date" class="required" />
 					</li>
 					<li>
 						<label for="want-time" class="what-time-label">
@@ -54,17 +50,22 @@
 						</label>
 						<input type="time" id="want-time" />
 					</li>
+					<div id="button-section">
+						<input type="submit" id="search" value="회의실 찾기" class="main-button">
+				<!--<button type="button" id="search" class="main-button">
+					예약 가능 회의실 보기
+				</button>-->
+			</div>
 				</form>
 			</section>
-			<div id="button-section">
-				<button type="button" id="search" class="main-button">
-					예약 가능 회의실 보기
-				</button>
-			</div>
-
-			<section id="rooms-section"></section>
+		<section id="rooms-section">
+			{% for i in avaliableroom %}
+               <div>{{i.meetingroomname}} 회의실 </div>
+				<div>위치 : {{i.meetingroomloc}} 수용인원 : {{i.meetingroomcapacity}} </div>
+				<div>{{i.reservestarttime}} ~ {{i.reserveendtime}} 예약 가능</div>
+			{% endfor %}
+		</section>
 		</div>
-
 		<div class="modal">
 			<div class="modal-body">
 				<div class="modal-title">예약 희망 시각</div>
@@ -77,90 +78,6 @@
 				</button>
 			</div>
 		</div>
-
-		<script src="{% static 'index.js' %}"></script>
-	</body>
-</html>
--->
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="{% static 'style.css' %}" />
-
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
-			rel="stylesheet"
-		/>
-
-		<title>회의실 예약</title>
-	</head>
-	<body>
-		<div id="main-title">회의실 예약</div>
-		<div id="main-content">
-			<section>
-				<div id="title">예약 정보 입력</div>
-				<form>
-					<li>
-						<span color="red">*</span>
-						<label for="name">예약자 이름 </label>
-						<input type="text" id="name" class="required" />
-					</li>
-					<li>
-						<span color="red">*</span>
-						<label for="vim-check">빔프로젝터 사용 여부 </label>
-						<input type="checkbox" id="vim-check" />
-					</li>
-					<li>
-						<span color="red">*</span>
-						<label for="count">예약 인원 </label>
-						<input type="number" id="count" class="small required" /> 명
-					</li>
-					<li>
-						<span color="red">*</span>
-						<label for="date">예약 일자 </label>
-						<input type="date" id="date" class="required" />
-					</li>
-					<li>
-						<span color="red">*</span>
-						<label for="how-time">회의실 사용 시간 </label>
-						<input type="number" id="how-time" class="small required" /> 시간
-					</li>
-					<li>
-						<label for="want-time" class="what-time-label">
-							예약 희망 시각
-						</label>
-						<input type="time" id="want-time" />
-					</li>
-				</form>
-			</section>
-			<div id="button-section">
-				<button type="button" id="search" class="main-button">
-					예약 가능 회의실 보기
-				</button>
-			</div>
-
-			<section id="rooms-section"></section>
-		</div>
-
-		<div class="modal">
-			<div class="modal-body">
-				<div class="modal-title">예약 희망 시각</div>
-				<div class="modal-input">
-					<input type="time" id="start-time" />~
-					<input type="time" id="end-time" />
-				</div>
-				<button type="button" class="main-button green reserve2">예약</button>
-			</div>
-		</div>
-			{% room in avaliableroom %}
-				<div>테스트 : {{room.meetingroomid}} </div>
-			{% endfor %}
 		<script src="{% static 'index.js' %}"></script>
 	</body>
 </html>
