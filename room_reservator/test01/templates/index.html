@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -22,27 +21,32 @@
 		<div id="main-content">
 			<section>
 				<div id="title">예약 정보 입력</div>
-				<form action = "" method="get">
+				<form action="" method="get" id="form1">
 					<li>
 						<span color="red">*</span>
-						<label for="name">예약자 이름 </label>
-						<input type="text" name = "name" id="name" class="required" />
+						<label for="name">예약자 사번 </label>
+						<input type="text" name="reserverid" id="name" class="required" />
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="vim-check">빔프로젝터 사용 여부 </label>
-						<input type="checkbox" name = "vim_check" id="vim-check" />
+						<input type="checkbox" name="vim_check" id="vim-check" />
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="count">예약 인원 </label>
-						<input type="number" name ="count" id="count" class="small required"/> 명
-
+						<input
+							type="number"
+							name="count"
+							id="count"
+							class="small required"
+						/>
+						명
 					</li>
 					<li>
 						<span color="red">*</span>
 						<label for="date">예약 일자 </label>
-						<input type="date" name ="date" id="date" class="required" />
+						<input type="date" name="date" id="date" class="required" />
 					</li>
 					<li>
 						<label for="want-time" class="what-time-label">
@@ -51,33 +55,132 @@
 						<input type="time" id="want-time" />
 					</li>
 					<div id="button-section">
-						<input type="submit" id="search" value="회의실 찾기" class="main-button">
-				<!--<button type="button" id="search" class="main-button">
-					예약 가능 회의실 보기
-				</button>-->
-			</div>
+						<button type="submit" id="search" class="main-button">
+							회의실 찾기
+						</button>
+					</div>
 				</form>
 			</section>
-		<section id="rooms-section">
-			{% for i in avaliableroom %}
-               <div>{{i.meetingroomname}} 회의실 </div>
-				<div>위치 : {{i.meetingroomloc}} 수용인원 : {{i.meetingroomcapacity}} </div>
-				<div>{{i.reservestarttime}} ~ {{i.reserveendtime}} 예약 가능</div>
-			{% endfor %}
-		</section>
-		</div>
-		<div class="modal">
-			<div class="modal-body">
-				<div class="modal-title">예약 희망 시각</div>
-				<div class="modal-input">
-					<input type="time" id="start-time" />~
-					<input type="time" id="end-time" />
+			<section id="rooms-section">
+				<div id="section-title">현재 예약 가능한 회의실이에요</div>
+				<div id="room-area">
+					{% for i in avaliableroom %}
+					<div class="room">
+						<div class="room-info">
+							<div class="title-text">
+								{{i.meetingroomname}} 회의실 ( {{i.reservestarttime}} ~
+								{{i.reserveendtime}} )
+							</div>
+
+							<div class="subtitle-text">
+								{{i.meetingroomloc}}, 정원 {{i.meetingroomcapacity}}명
+							</div>
+						</div>
+						<button type="button" class="modal-button main-button green">
+							예약
+						</button>
+						<div class="modal">
+							<div class="modal-body">
+								<form action="" method="post" id="form2">
+									<span class="modal-title">예약 정보</span>
+									<span class="close">&times;</span>
+									<div class="modal-content">
+										회의실 이름 :
+										<input
+											type="text"
+											name="reserveroom"
+											value="{{i.meetingroomname}}"
+											class="meetingroomname"
+										/>
+										<br /><br />
+										예약자 :
+										<input type="text" name="name" value = "{{reserver_name}}" class="reserve-date"/>
+										<br /><br />
+										예약일 :
+										<input type="text" name="date" value = "{{reserve_date}}" class="reserve-date" />
+										<br /><br />
+										예약 가능 시간 : {{i.reservestarttime}} ~
+										{{i.reserveendtime}}
+										<br/>
+										<div class="select-time">
+											예약 시간 <br /><br />
+											<input
+												type="time"
+												name="reservestarttime"
+												min="{{i.reservestarttime}}"
+												max="{{i.reserveendtime}}"
+												step="1800"
+												class="start-time"
+											/>
+											~
+											<input
+												type="time"
+												name="reserveendtime"
+												min="{{i.reservestarttime}}"
+												max="{{i.reserveendtime}}"
+												step="1800"
+												class="end-time"
+											/>
+											<button type="submit" class="main-button green reserve2">
+												예약
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
 				</div>
-				<button type="button" class="main-button green reserve2">
-					예약
-				</button>
-			</div>
+			</section>
 		</div>
+
 		<script src="{% static 'index.js' %}"></script>
+		<script>
+			var modals = document.getElementsByClassName("modal");
+			var btns = document.getElementsByClassName("modal-button");
+			var spanes = document.getElementsByClassName("close");
+			var funcs = [];
+
+			// Modal을 띄우고 닫는 클릭 이벤트를 정의한 함수
+			function Modal(num) {
+				return function () {
+					var url = window.location.search;
+					var reserver_name = document.querySelector(".reserver");
+					var reserve_date = document.querySelector(".reserve-date");
+					// 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
+					btns[num].onclick = function () {
+						modals[num].style.display = "block";
+						reserver_name.setAttribute(
+							"value",
+							url.split("=")[1].split("&")[0]
+						);
+						reserve_date.setAttribute("value", url.split("=")[4]);
+					};
+
+					// <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.
+					spanes[num].onclick = function () {
+						modals[num].style.display = "none";
+					};
+				};
+			}
+
+			// 원하는 Modal 수만큼 Modal 함수를 호출해서 funcs 함수에 정의합니다.
+			for (var i = 0; i < btns.length; i++) {
+				funcs[i] = Modal(i);
+			}
+
+			// 원하는 Modal 수만큼 funcs 함수를 호출합니다.
+			for (var j = 0; j < btns.length; j++) {
+				funcs[j]();
+			}
+
+			// Modal 영역 밖을 클릭하면 Modal을 닫습니다.
+			window.onclick = function (event) {
+				if (event.target.className == "modal") {
+					event.target.style.display = "none";
+				}
+			};
+		</script>
 	</body>
 </html>
