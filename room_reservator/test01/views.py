@@ -10,12 +10,12 @@ def index(request):
 
     ## DB 데이터 조회
     if(request.method == 'GET' and bool(request.GET)):
-        isbeam = 0
-        if (request.GET.get("vim_check") == "on"):
-            isbeam = 1
 
         # 조건에 맞는 회의실 정보 추출
-        queryset = Meetingroom.objects.filter(meetingroomcapacity__gt=request.GET['count'], isbeamprojector=isbeam).values()
+        if(request.GET.get("vim_check") == "on"):
+            queryset = Meetingroom.objects.filter(meetingroomcapacity__gt=request.GET['count'],isbeamprojector=1).values()
+        else:
+            queryset = Meetingroom.objects.filter(meetingroomcapacity__gt=request.GET['count']).values()
 
         for i in range(len(queryset)):
             context_i = {}
