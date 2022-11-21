@@ -73,7 +73,9 @@
 							</div>
 
 							<div class="subtitle-text">
-								{{i.meetingroomloc}}, 정원 {{i.meetingroomcapacity}}명
+								{{i.meetingroomloc}}, 정원 {{i.meetingroomcapacity}}명,
+								빔프로젝터 사용 :
+								<span class="isbeamprojector"> {{i.isbeamprojector}} </span>
 							</div>
 						</div>
 						<button type="button" class="modal-button main-button green">
@@ -94,14 +96,24 @@
 										/>
 										<br /><br />
 										예약자 :
-										<input type="text" name="name" value = "{{reserver_name}}" class="reserve-date"/>
+										<input
+											type="text"
+											name="name"
+											value="{{reserver_name}}"
+											class="reserve-date"
+										/>
 										<br /><br />
 										예약일 :
-										<input type="text" name="date" value = "{{reserve_date}}" class="reserve-date" />
+										<input
+											type="text"
+											name="date"
+											value="{{reserve_date}}"
+											class="reserve-date"
+										/>
 										<br /><br />
 										예약 가능 시간 : {{i.reservestarttime}} ~
 										{{i.reserveendtime}}
-										<br/>
+										<br />
 										<div class="select-time">
 											예약 시간 <br /><br />
 											<input
@@ -148,7 +160,7 @@
 					var url = window.location.search;
 					var reserver_name = document.querySelector(".reserver");
 					var reserve_date = document.querySelector(".reserve-date");
-					// 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
+
 					btns[num].onclick = function () {
 						modals[num].style.display = "block";
 						reserver_name.setAttribute(
@@ -158,24 +170,25 @@
 						reserve_date.setAttribute("value", url.split("=")[4]);
 					};
 
-					// <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.
+					const reserve_btn2 = document.querySelector(".reserve2");
+					reserve_btn2.onclick = function () {
+						alert("예약이 완료되었습니다.");
+					};
+
 					spanes[num].onclick = function () {
 						modals[num].style.display = "none";
 					};
 				};
 			}
 
-			// 원하는 Modal 수만큼 Modal 함수를 호출해서 funcs 함수에 정의합니다.
 			for (var i = 0; i < btns.length; i++) {
 				funcs[i] = Modal(i);
 			}
 
-			// 원하는 Modal 수만큼 funcs 함수를 호출합니다.
 			for (var j = 0; j < btns.length; j++) {
 				funcs[j]();
 			}
 
-			// Modal 영역 밖을 클릭하면 Modal을 닫습니다.
 			window.onclick = function (event) {
 				if (event.target.className == "modal") {
 					event.target.style.display = "none";

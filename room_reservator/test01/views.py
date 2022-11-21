@@ -11,12 +11,12 @@ def index(request):
     ## DB 데이터 조회
     if(request.method == 'GET' and bool(request.GET)):
 
+
         # 조건에 맞는 회의실 정보 추출
         if(request.GET.get("vim_check") == "on"):
             queryset = Meetingroom.objects.filter(meetingroomcapacity__gt=request.GET['count'],isbeamprojector=1).values()
         else:
             queryset = Meetingroom.objects.filter(meetingroomcapacity__gt=request.GET['count']).values()
-
         for i in range(len(queryset)):
             context_i = {}
             # 해당 회의실에 대한 기존 예약 정보 추출
@@ -29,7 +29,7 @@ def index(request):
                 context_i['meetingroomname'] = queryset[i]['meetingroomname']
                 context_i['meetingroomloc'] = queryset[i]['meetingroomloc']
                 context_i['meetingroomcapacity'] = queryset[i]['meetingroomcapacity']
-                context_i['isbeamprojector'] = queryset[i]['isbeamprojector']
+                context_i['isbeamprojector'] = '가능' if queryset[i]['isbeamprojector'] else '불가'
                 context_i['reservestarttime'] = '00:00:00'
                 context_i['reserveendtime'] = '24:00:00'
                 avaliableroom.append(context_i)
@@ -44,7 +44,7 @@ def index(request):
                     context_fisrt['meetingroomname'] = data[j].reserveroom.meetingroomname
                     context_fisrt['meetingroomloc'] = data[j].reserveroom.meetingroomloc
                     context_fisrt['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                    context_fisrt['isbeamprojector'] = data[j].reserveroom.isbeamprojector
+                    context_fisrt['isbeamprojector'] = '가능' if data[j].reserveroom.isbeamprojector else '불가'
 
                     if(len(data) == 1) : #선택한 날짜에 예약이 1개
                         context_fisrt['reservestarttime'] = '00:00:00'
@@ -55,7 +55,7 @@ def index(request):
                         context_second['meetingroomname'] = data[j].reserveroom.meetingroomname
                         context_second['meetingroomloc'] = data[j].reserveroom.meetingroomloc
                         context_second['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                        context_second['isbeamprojector'] = data[j].reserveroom.isbeamprojector
+                        context_second['isbeamprojector'] = '가능' if data[j].reserveroom.isbeamprojector else '불가'
                         context_second['reservestarttime'] = data[j].reserveendtime.strftime("%H:%M:%S")
                         context_second['reserveendtime'] = '24:00:00'
                         avaliableroom.append(context_second)
