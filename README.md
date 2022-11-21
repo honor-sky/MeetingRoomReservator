@@ -3,7 +3,7 @@
 # 회의실 찾기 및 예약 기능(MeetingRoomReservator)
 
 ### Subject : Web Application Development for Searching MeetingRoom 
-### Team :
+### Team : SCP1001
 
 
 # 참여자
