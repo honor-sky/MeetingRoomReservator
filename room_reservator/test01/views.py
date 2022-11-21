@@ -24,6 +24,7 @@ def index(request):
                 context_i['meetingroomname'] = queryset[i]['meetingroomname']
                 context_i['meetingroomloc'] = queryset[i]['meetingroomloc']
                 context_i['meetingroomcapacity'] = queryset[i]['meetingroomcapacity']
+                context_i['isbeamprojector'] = queryset[i]['isbeamprojector']
                 context_i['reservestarttime'] = '00:00:00'
                 context_i['reserveendtime'] = '24:00:00'
                 avaliableroom.append(context_i)
@@ -37,6 +38,7 @@ def index(request):
                     context_fisrt['meetingroomname'] = data[j].reserveroom.meetingroomname
                     context_fisrt['meetingroomloc'] = data[j].reserveroom.meetingroomloc
                     context_fisrt['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
+                    context_fisrt['isbeamprojector'] = data[j].reserveroom.isbeamprojector
 
                     if(len(data) == 1) : #선택한 날짜에 예약이 1개
                         context_fisrt['reservestarttime'] = '00:00:00'
@@ -47,20 +49,14 @@ def index(request):
                         context_second['meetingroomname'] = data[j].reserveroom.meetingroomname
                         context_second['meetingroomloc'] = data[j].reserveroom.meetingroomloc
                         context_second['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                        context_fisrt['reservestarttime'] = data[j].reserveendtime.strftime("%H:%M:%S")
-                        context_fisrt['reserveendtime'] = '24:00:00'
-                        avaliableroom.append(context_fisrt)
+                        context_second['isbeamprojector'] = data[j].reserveroom.isbeamprojector
+                        context_second['reservestarttime'] = data[j].reserveendtime.strftime("%H:%M:%S")
+                        context_second['reserveendtime'] = '24:00:00'
+                        avaliableroom.append(context_second)
                         continue
 
                     if (j == 0 and data[j].reservestarttime != '00:00:00'):
-                        #context_fisrt = {}
-                        #context_second = {}
-                        '''
-                        context_fisrt['meetingroomid'] = data[j].reserveroom.meetingroomid
-                        context_fisrt['meetingroomname'] = data[j].reserveroom.meetingroomname
-                        context_fisrt['meetingroomloc'] = data[j].reserveroom.meetingroomloc
-                        context_fisrt['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                        '''
+
                         context_fisrt['reservestarttime'] = '00:00:00'
                         context_fisrt['reserveendtime'] = data[j].reservestarttime.strftime("%H:%M:%S")
                         avaliableroom.append(context_fisrt)
@@ -74,23 +70,11 @@ def index(request):
                         avaliableroom.append(context_second)
 
                     elif (j == len(data) - 1 and data[j].reserveendtime != '24:00:00'):
-                        '''
-                        context_fisrt['meetingroomid'] = data[j].reserveroom.meetingroomid
-                        context_fisrt['meetingroomname'] = data[j].reserveroom.meetingroomname
-                        context_fisrt['meetingroomloc'] = data[j].reserveroom.meetingroomloc
-                        context_fisrt['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                        '''
                         context_fisrt['reservestarttime'] = data[j].reserveendtime.strftime("%H:%M:%S")
                         context_fisrt['reserveendtime'] = '24:00:00'
                         avaliableroom.append(context_fisrt)
 
                     else:
-                        '''
-                        context_fisrt['meetingroomid'] = data[j].reserveroom.meetingroomid
-                        context_fisrt['meetingroomname'] = data[j].reserveroom.meetingroomname
-                        context_fisrt['meetingroomloc'] = data[j].reserveroom.meetingroomloc
-                        context_fisrt['meetingroomcapacity'] = data[j].reserveroom.meetingroomcapacity
-                        '''
                         context_fisrt['reservestarttime'] = data[j].reserveendtime.strftime("%H:%M:%S")
                         context_fisrt['reserveendtime'] = data[j + 1].reservestarttime.strftime("%H:%M:%S")
                         avaliableroom.append(context_fisrt)
