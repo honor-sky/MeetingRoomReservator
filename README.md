@@ -20,7 +20,7 @@
 |---|---|
 |Model|Python|
 |View|Python|
-|Template|HTML,CSS,JS|
+|Template|HTML, CSS, JS|
 
 |데이터베이스 구축|MySQL|
 |---|---|
