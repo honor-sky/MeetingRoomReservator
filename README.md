@@ -21,7 +21,7 @@
 ||Model,View,Template(HTML,CSS,JS)|
 
 |데이터베이스 구축|MySQL|
-
+|---|---|
 
 # 기획 소개
 
