@@ -18,7 +18,9 @@
 # 기술 스택
 |프레임워크|Django|
 |---|---|
-||Model,View,Template(HTML,CSS,JS)|
+|Model|Python|
+|View|Python|
+|Template|HTML,CSS,JS|
 
 |데이터베이스 구축|MySQL|
 |---|---|
