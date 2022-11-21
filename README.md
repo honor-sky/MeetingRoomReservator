@@ -17,8 +17,7 @@
 
 # 기술 스택
 |프레임워크|Django|
-|---|---|
-
+|---|Model,View,Template(HTML,CSS,JS)|
 |Model|
 |View|
 |Template|HTML,CSS,JS|
