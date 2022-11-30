@@ -1,0 +1,48 @@
+﻿-- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
+
+-- Employee Table Create SQL
+CREATE TABLE Employee
+(
+    `employeeId`  INT            NOT NULL    AUTO_INCREMENT COMMENT '사원번호', 
+    `ID`          VARCHAR(45)    NOT NULL    COMMENT '아이디', 
+    `password`    VARCHAR(45)    NOT NULL    COMMENT '비밀번호', 
+    `name`        VARCHAR(45)    NOT NULL    COMMENT '이름', 
+    `email`       VARCHAR(45)    NOT NULL    COMMENT '이메일', 
+    `department`  VARCHAR(45)    NOT NULL    COMMENT '소속 부서', 
+     PRIMARY KEY (employeeId)
+);
+
+
+-- MeetingRoom Table Create SQL
+CREATE TABLE MeetingRoom
+(
+    `meetingRoomId`        INT             NOT NULL    AUTO_INCREMENT COMMENT '회의실 일련번호', 
+    `meetingRoomName`      VARCHAR(45)     NOT NULL    COMMENT '회의실명', 
+    `meetingRoomLoc`       VARCHAR(100)    NOT NULL    COMMENT '회의실 위치', 
+    `meetingRoomCapacity`  INT             NOT NULL    COMMENT '회의실 수용인원', 
+    `isBeamProjector`      INT             NOT NULL    COMMENT '회의실 빔프로젝트 여부', 
+     PRIMARY KEY (meetingRoomId)
+);
+
+
+-- RoomReservation Table Create SQL
+CREATE TABLE RoomReservation
+(
+    `reservationId`     INT         NOT NULL    AUTO_INCREMENT COMMENT '예약 일련번호', 
+    `reserveRoom`       INT         NOT NULL    COMMENT '예약 회의실', 
+    `reserver`          INT         NOT NULL    COMMENT '예약자', 
+    `reserveDate`       DATETIME    NOT NULL    COMMENT '예약일', 
+    `reserveStartTime`  TIME        NOT NULL    COMMENT '예약 시작시간', 
+    `reserveEndTime`    TIME        NOT NULL    COMMENT '예약 종료시간', 
+     PRIMARY KEY (reservationId)
+);
+
+ALTER TABLE RoomReservation
+    ADD CONSTRAINT FK_RoomReservation_reserver_Employee_employeeId FOREIGN KEY (reserver)
+        REFERENCES Employee (employeeId) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE RoomReservation
+    ADD CONSTRAINT FK_RoomReservation_reserveRoom_MeetingRoom_meetingRoomId FOREIGN KEY (reserveRoom)
+        REFERENCES MeetingRoom (meetingRoomId) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
